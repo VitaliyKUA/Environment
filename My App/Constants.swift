@@ -9,9 +9,9 @@
 import Foundation
 
 struct Constants {
-    static let baseURL = Constants.getConfig().object(forKey: "baseURL") as! String
+    static let baseURL: String = Constants.getConfig().object(forKey: "baseURL") as! String
     
-    static func getConfig() -> NSDictionary {
+    static private func getConfig() -> NSDictionary {
         if let env = Bundle.main.object(forInfoDictionaryKey: "Config"),
             let path = Bundle.main.path(forResource: "Configuration", ofType: "plist"),
             let configFile = NSDictionary.init(contentsOfFile: path) {
