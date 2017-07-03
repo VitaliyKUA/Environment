@@ -9,16 +9,15 @@
 import Foundation
 
 struct Constants {
+    static let baseURL = Constants.getConfig().object(forKey: "baseURL") as! String
     
-    static let baseUrl = Constants.getConfiguration(value: "baseUrl")
-    
-    static private func getConfiguration(value: String) -> String {
-        let path = Bundle.main.path(forResource: "Configuration", ofType: "plist")
-        if let path = path {
-            let config = NSDictionary(contentsOfFile: path)!
-            return config[value] as! String
+    static func getConfig() -> NSDictionary {
+        if let env = Bundle.main.object(forInfoDictionaryKey: "Config"),
+            let path = Bundle.main.path(forResource: "Configuration", ofType: "plist"),
+            let configFile = NSDictionary.init(contentsOfFile: path) {
+            return configFile[env] as! NSDictionary
         } else {
-            return "Configuration not found"
+            return NSDictionary()
         }
     }
 }
